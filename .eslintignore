@@ -1,0 +1,39 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore build output directories
+dist/
+build/
+
+# Ignore vendor directories
+vendor/
+
+# Ignore compiled files
+*.min.js
+*.min.css
+
+# Ignore log files
+*.log
+
+# Ignore configuration files
+*.config.js
+*.conf.js
+
+# Ignore markdown files
+*.md
+
+# Ignore JSON files
+*.json
+
+# Ignore images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+
+# Ignore fonts
+*.woff
+*.woff2
+*.ttf
+*.eot
