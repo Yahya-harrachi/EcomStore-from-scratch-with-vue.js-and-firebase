@@ -42,17 +42,10 @@
                 <td>{{ product.price }}</td>
                 <td>{{ product.description }}</td>
                 <td>
-                  <button
-                    class="btn btn-warning btn-sm"
-                    @click="editProduct(product)"
-                  >
+                  <button class="btn btn-warning btn-sm" @click="editProduct(product)">
                     Edit
                   </button>
-                  <button
-                    class="btn btn-danger btn-sm"
-                    style="margin-left: 0.5rem"
-                    @click="deleteProduct(product.id)"
-                  >
+                  <button class="btn btn-danger btn-sm" style="margin-left: 0.5rem" @click="deleteProduct(product.id)">
                     Delete
                   </button>
                 </td>
@@ -64,140 +57,76 @@
     </div>
 
     <!-- Product Modal -->
-    <div
-      id="product"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="editLabel"
-      aria-hidden="true"
-    >
+    <div id="product" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 id="editLabel" class="modal-title">{{ modalTitle }}</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="productName" class="form-label text-left"
-                >Product Name</label
-              >
-              <input
-                id="productName"
-                v-model="product.name"
-                type="text"
-                placeholder="Product Name"
-                class="form-control"
-                style="font-size: 0.9rem"
-              />
+              <label for="productName" class="form-label text-left">Product Name</label>
+              <input id="productName" v-model="product.name" type="text" placeholder="Product Name" class="form-control"
+                style="font-size: 0.9rem" />
             </div>
             <div class="form-group">
-              <label for="productDescription" class="form-label text-left"
-                >Product Description</label
-              >
+              <label for="productDescription" class="form-label text-left">Product Description</label>
               <vueEditor v-model="product.description"></vueEditor>
-              <textarea
-                id="productDescription"
-                v-model="product.description"
-                placeholder="Product Description"
-                class="form-control"
-                rows="3"
-                style="font-size: 0.9rem"
-              ></textarea>
+              <textarea id="productDescription" v-model="product.description" placeholder="Product Description"
+                class="form-control" rows="3" style="font-size: 0.9rem"></textarea>
             </div>
             <div class="form-group">
-              <label for="productPrice" class="form-label text-left"
-                >Product Price</label
-              >
-              <input
-                id="productPrice"
-                v-model="product.price"
-                type="number"
-                placeholder="Product Price"
-                class="form-control"
-                style="font-size: 0.9rem"
-              />
+              <label for="productPrice" class="form-label text-left">Product Price</label>
+              <input id="productPrice" v-model="product.price" type="number" placeholder="Product Price"
+                class="form-control" style="font-size: 0.9rem" />
             </div>
             <div class="form-group">
-              <label for="productTags" class="form-label text-left"
-                >Product Tags</label
-              >
+              <label for="productTags" class="form-label text-left">Product Tags</label>
               <div class="d-flex flex-wrap align-items-center">
                 <!-- Display tags -->
-                <div
-                  v-for="(tag, index) in product.tags"
-                  :key="index"
-                  class="tag"
-                >
-                  <span
-                    style="
+                <div v-for="(tag, index) in product.tags" :key="index" class="tag">
+                  <span style="
                       font-weight: bold;
                       text-transform: uppercase;
                       margin-left: 0.6rem;
-                    "
-                    >{{ tag }}</span
-                  >
-                  <button
-                    class="btn btn-sm btn-danger"
-                    style="margin-left: 0.6rem"
-                    @click="deleteTag(index)"
-                  >
+                    ">{{ tag }}</span>
+                  <button class="btn btn-sm
+                    btn-danger" style="margin-left: 0.6rem" @click="deleteTag(index)">
                     &times;
                   </button>
                 </div>
                 <!-- Tag input field -->
-                <input
-                  id="productTags"
-                  v-model="tag"
-                  type="text"
-                  placeholder="Product Tags (comma-separated)"
-                  class="form-control"
-                  style="font-size: 0.9rem; width: 100%; margin-top: 0.5rem"
-                  @keyup.enter="addTag"
-                />
+                <input id="productTags" v-model="tag" type="text" placeholder="Product Tags (comma-separated)"
+                  class="form-control" style="font-size: 0.9rem; width: 100%; margin-top: 0.5rem"
+                  @keyup.enter="addTag" />
               </div>
             </div>
             <div class="form-group">
-              <label for="productImages" class="form-label text-left"
-                >Product Images</label
-              >
-              <input
-                id="productImages"
-                type="file"
-                class="form-control"
-                multiple
-                @change="handleImageUpload"
-              />
+              <label for="productImages" class="form-label text-left">Product Images</label>
+              <input id="productImages" type="file" class="form-control" multiple @change="uploadImage" />
+              <div class="image-grid">
+                <div v-for="(image, index) in product.images" :key="index" class="image-container">
+                  <img :src="image" :alt="product.name" class="product-image" />
+                  <button class="btn btn-sm btn-danger delete-image-btn" @click="deleteImage(product.images[index], index)">
+                    &times;
+                  </button>
+                </div>
+                <!-- Loading overlay -->
+                <div v-if="isLoading" class="loading-overlay">
+                  <div class="spinner"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button
-              v-if="modal === 'new'"
-              type="button"
-              class="btn btn-primary"
-              @click="addProduct"
-            >
+            <button v-if="modal === 'new'" type="button" class="btn btn-primary" @click="addProduct">
               Add Product
             </button>
-            <button
-              v-if="modal === 'edit'"
-              type="button"
-              class="btn btn-primary"
-              @click="updateProduct"
-            >
+            <button v-if="modal === 'edit'" type="button" class="btn btn-primary" @click="updateProduct">
               Apply changes
             </button>
           </div>
@@ -206,9 +135,9 @@
     </div>
   </div>
 </template>
-
 <script>
-import { db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { db, storage } from "../firebase"; // Ensure the correct imports
 import * as bootstrap from "bootstrap";
 import {
   collection,
@@ -218,6 +147,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -237,6 +167,7 @@ export default {
       modalTitle: "",
       modal: null,
       tag: "",
+      isLoading: false, // Add this line
     };
   },
 
@@ -245,6 +176,31 @@ export default {
   },
 
   methods: {
+    async uploadImage(e) {
+      if (e.target.files[0]) {
+        this.isLoading = true; // Set loading state to true
+        let file = e.target.files[0];
+        const storageRef = ref(storage, 'products/' + Math.random() + '_' + file.name);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Handle progress, if needed
+          },
+          (error) => {
+            console.error("Error uploading image: ", error);
+            this.isLoading = false; // Set loading state to false in case of error
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              this.product.images.push(downloadURL);
+              this.isLoading = false; // Set loading state to false after upload is complete
+            });
+          }
+        );
+      }
+    },
     addTag() {
       if (!Array.isArray(this.product.tags)) {
         this.product.tags = []; // Ensure that product.tags is initialized as an array
@@ -261,9 +217,17 @@ export default {
         new bootstrap.Modal(myModalEl);
       return myModal;
     },
-    deleteTag(index) {
-      this.product.tags.splice(index, 1);
-    },
+    async deleteImage(img, index) {
+      try {
+        const imageRef = ref(storage, img);
+        await deleteObject(imageRef);
+        this.product.images.splice(index, 1);
+        console.log('Image deleted successfully');
+      } catch (error) {
+        console.error('Error deleting image:', error);
+      }
+    }
+    ,
     async readData() {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
@@ -283,10 +247,8 @@ export default {
     },
     async updateProduct() {
       try {
-        // Reference to the specific document to be updated
         const productRef = doc(db, "products", this.product.id);
 
-        // Update the document with the new data
         await updateDoc(productRef, {
           name: this.product.name,
           description: this.product.description,
@@ -297,13 +259,12 @@ export default {
 
         console.log("Product updated with ID: ", this.product.id);
 
-        // Fetch the updated list of products
         await this.readData();
         Swal.fire({
           icon: "success",
           title: "Updated successfully",
         });
-        // Hide the modal
+
         this.modalAction().hide();
       } catch (e) {
         console.error("Error updating product: ", e);
@@ -380,7 +341,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .ProductsVue {
   padding: 20px;
@@ -429,5 +389,78 @@ export default {
   margin-bottom: 0.5rem;
   text-align: left;
   margin-top: 1.5rem;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  position: relative;
+  /* Added */
+}
+
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.delete-image-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 8px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #007bff;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
