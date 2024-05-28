@@ -176,6 +176,8 @@ export default {
   },
 
   methods: {
+
+    
     async uploadImage(e) {
       if (e.target.files[0]) {
         this.isLoading = true; // Set loading state to true
@@ -201,6 +203,8 @@ export default {
         );
       }
     },
+
+
     addTag() {
       if (!Array.isArray(this.product.tags)) {
         this.product.tags = []; // Ensure that product.tags is initialized as an array
@@ -210,6 +214,8 @@ export default {
         this.tag = ""; // Clear the tag input field after adding the tag
       }
     },
+
+
     modalAction() {
       const myModalEl = document.getElementById("product");
       const myModal =
@@ -217,6 +223,8 @@ export default {
         new bootstrap.Modal(myModalEl);
       return myModal;
     },
+
+
     async deleteImage(img, index) {
       try {
         const imageRef = ref(storage, img);
@@ -228,6 +236,8 @@ export default {
       }
     }
     ,
+
+
     async readData() {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
@@ -239,12 +249,16 @@ export default {
         console.error("Error reading data:", error);
       }
     },
+    
+
     addNew() {
       this.modal = "new";
       this.modalTitle = "Add New Product ";
       this.resetProductForm();
       this.modalAction().show();
     },
+
+
     async updateProduct() {
       try {
         const productRef = doc(db, "products", this.product.id);

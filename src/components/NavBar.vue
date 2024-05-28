@@ -42,6 +42,10 @@
         >
           Login
         </a>
+        <!-- Cart icon -->
+        <router-link to="/checkout" class="nav-link">
+          <i class="fas fa-shopping-cart fa-lg"></i>
+        </router-link>
       </form>
     </nav>
 
@@ -60,5 +64,16 @@ export default {
 <style scoped lang="scss">
 .NavBar {
   padding: 20px 70px;
+}
+
+.nav-link i {
+  color: #000;
+  font-size: 24px; /* Adjust the size as needed */
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.nav-link i:hover {
+  color: #007bff; /* Change the color on hover */
 }
 </style>

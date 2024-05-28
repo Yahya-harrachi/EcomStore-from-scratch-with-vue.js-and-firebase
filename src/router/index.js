@@ -4,12 +4,19 @@ import Admin from "../views/Admin.vue";
 import OverView from "../views/OverView.vue";
 import Products from "../views/Products.vue";
 import Orders from "../views/Orders.vue";
+import Profile from "../views/Profile.vue";
+import Checkout from "../components/CheckOut.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/Checkout",
+    name: "Checkout",
+    component: Checkout,
   },
   {
     path: "/admin",
@@ -31,6 +38,11 @@ const routes = [
         path: "orders",
         name: "orders",
         component: Orders,
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: Profile,
       },
     ],
   },

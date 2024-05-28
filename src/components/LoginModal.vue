@@ -1,34 +1,19 @@
 <template>
-  <div
-    id="Login"
-    class="modal fade"
-    tabindex="-1"
-    aria-labelledby="LoginLabel"
-    aria-hidden="true"
-  >
+  <div id="Login" class="modal fade" tabindex="-1" aria-labelledby="LoginLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5
-            id="LoginLabel"
-            class="modal-title d-flex justify-content-center"
-            style="
+          <h5 id="LoginLabel" class="modal-title d-flex justify-content-center" style="
               color: #007bff;
               font-size: 1.5rem;
               font-weight: bold;
 
               word-break: keep-all;
-            "
-          >
+            ">
             Welcome Back!
           </h5>
 
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <!-- Sign-in form -->
@@ -36,30 +21,18 @@
             <form>
               <div class="mb-3 text-start">
                 <label for="email" class="form-label">Email address :</label>
-                <input
-                  id="email"
-                  v-model="email"
-                  type="email"
-                  class="form-control"
-                  placeholder="Enter email"
-                  style="font-size: 0.9rem"
-                />
+                <input id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
+                  style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="password" class="form-label">Password :</label>
-                <input
-                  id="password"
-                  v-model="password"
-                  type="password"
-                  class="form-control"
-                  placeholder="Password"
-                  style="font-size: 0.9rem"
-                  @keyup.enter="Login()"
-                />
+                <input id="password" v-model="password" type="password" class="form-control" placeholder="Password"
+                  style="font-size: 0.9rem" @keyup.enter="Login()" />
               </div>
               <a type="submit" class="btn btn-success" @click="Login()">
                 Sign In
               </a>
+              
             </form>
           </div>
           <!-- Sign-up form -->
@@ -67,49 +40,23 @@
             <form>
               <div class="mb-3 text-start">
                 <label for="name" class="form-label">Name :</label>
-                <input
-                  id="name"
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter your name"
-                  style="font-size: 0.9rem"
-                />
+                <input id="name" v-model="name" type="text" class="form-control" placeholder="Enter your name"
+                  style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="email" class="form-label">Email address :</label>
-                <input
-                  id="email"
-                  v-model="email"
-                  type="email"
-                  class="form-control"
-                  placeholder="Enter email"
-                  style="font-size: 0.9rem"
-                />
+                <input id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
+                  style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="password" class="form-label">Password :</label>
-                <input
-                  id="password"
-                  v-model="password"
-                  type="password"
-                  class="form-control"
-                  placeholder="Password"
-                  style="font-size: 0.9rem"
-                />
+                <input id="password" v-model="password" type="password" class="form-control" placeholder="Password"
+                  style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
-                <label for="confirmPassword" class="form-label"
-                  >Confirm Password :</label
-                >
-                <input
-                  id="confirmPassword"
-                  v-model="confirmPassword"
-                  type="password"
-                  class="form-control"
-                  placeholder="Confirm password"
-                  style="font-size: 0.9rem"
-                />
+                <label for="confirmPassword" class="form-label">Confirm Password :</label>
+                <input id="confirmPassword" v-model="confirmPassword" type="password" class="form-control"
+                  placeholder="Confirm password" style="font-size: 0.9rem" />
               </div>
 
               <a type="submit" class="btn btn-success" @click="CreateAccount()">
@@ -121,11 +68,7 @@
         <div class="modal-footer">
           <div v-if="mode === 'signin'">Don't Have any Account ?</div>
           <div v-else>Already Have an Account ?</div>
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            @click="switchMode"
-          >
+          <button type="button" class="btn btn-outline-secondary" @click="switchMode">
             {{ mode === "signin" ? "Sign Up" : "Sign In" }}
           </button>
         </div>
@@ -136,12 +79,17 @@
 
 <script>
 import { inject } from "vue";
-import { auth } from "../firebase.js";
+import { auth, db } from "../firebase.js";
 import {
   signInWithEmailAndPassword,
   getAuth,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  collection,
+  addDoc,
+} from "firebase/firestore";
+
 import * as bootstrap from "bootstrap"; // Import all Bootstrap components
 
 export default {
@@ -218,6 +166,20 @@ export default {
             bootstrap.Modal.getInstance(myModalEl) ||
             new bootstrap.Modal(myModalEl);
           myModal.hide();
+
+
+          const docRef = await addDoc(collection(db, "profiles"), {
+            name: this.name,
+            email: this.email
+          })
+            .then(function () {
+              console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+              console.error("Error writing document: ", error);
+            });
+
+
           // Navigate to the admin page
           this.$router.replace("admin");
         } else {
