@@ -6,6 +6,8 @@ import Products from "../views/Products.vue";
 import Orders from "../views/Orders.vue";
 import Profile from "../views/Profile.vue";
 import Checkout from "../components/CheckOut.vue";
+import Success from "../components/SuccessPage.vue";
+import Cancel from "../components/CancelPage.vue";
 
 const routes = [
   {
@@ -17,6 +19,16 @@ const routes = [
     path: "/Checkout",
     name: "Checkout",
     component: Checkout,
+  },
+  {
+    path: "/success",
+    name: "succes",
+    component: Success,
+  },
+  {
+    path: "/Cancel",
+    name: "Cancel",
+    component: Cancel,
   },
   {
     path: "/admin",

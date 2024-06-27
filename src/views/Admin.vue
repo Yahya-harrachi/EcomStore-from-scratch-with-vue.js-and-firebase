@@ -109,7 +109,7 @@ export default {
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             this.userData.name = doc.data().name;
-            this.userData.name = this.userData.name.toUpperCase()
+            //this.userData.name = this.userData.name.toUpperCase()
           });
         } else {
           throw new Error("User not found");

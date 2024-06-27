@@ -37,21 +37,6 @@
         </div>
       </div>
 
-      <!-- Mission Statement Section -->
-      <div class="mission-statement-section bg-light py-5">
-        <div class="container text-center">
-          <h2>Our Mission</h2>
-          <p class="lead">To empower our customers and help them achieve their goals by providing high-quality products and exceptional service.</p>
-        </div>
-      </div>
-
-      <!-- Vision Section -->
-      <div class="vision-section py-5">
-        <div class="container text-center">
-          <h2>Our Vision</h2>
-          <p class="lead">To be a global leader in our industry, recognized for our innovative solutions and exceptional customer experiences.</p>
-        </div>
-      </div>
 
       <!-- Values Section -->
       <div class="values-section bg-light py-5">
@@ -91,6 +76,7 @@
                 <div class="member-info">
                   <h5 class="member-name">{{ member.name }}</h5>
                   <p class="member-position">{{ member.position }}</p>
+                  <a :href="member.linkedin" target="_blank" class="linkedin-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
                 </div>
               </div>
             </div>
@@ -98,45 +84,38 @@
         </div>
       </div>
 
-      <!-- Contact Section -->
-      <div class="contact-section bg-light py-5">
-        <div class="container text-center">
-          <h2>Contact Us</h2>
-          <p class="lead">Have questions? We’re here to help. Reach out to us anytime, and we’ll happily answer your questions.</p>
-          <a href="#" class="btn btn-primary btn-lg mt-3">Get in Touch</a>
-        </div>
-      </div>
+
+      
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-import NavBar from '@/components/NavBar.vue'; // Adjust the path as necessary
+import NavBar from '@/components/NavBar.vue';
+import Footer from '@/components/Footer.vue'; 
 
 export default {
   name: "AboutSection",
   components: {
-    NavBar
+    NavBar,
+    Footer
   },
   setup() {
     const teamMembers = ref([
       {
-        name: 'John Doe',
-        position: 'CEO',
-        image: 'https://via.placeholder.com/300x300'
+        name: 'Harrachi Yahya',
+        position: 'Developer',
+        image: require('../assets/Graphics/yahya.jpg'),
+        linkedin: 'https://www.linkedin.com/in/harrachi-yahya/'
       },
       {
-        name: 'Jane Smith',
-        position: 'CTO',
-        image: 'https://via.placeholder.com/300x300'
+        name: 'Aymane Arrout',
+        position: 'SuperViseur/Ingénieur',
+        image: require('../assets/Graphics/aymane.jpg'),
+        linkedin: 'https://www.linkedin.com/in/aymanearr/'
       },
-      {
-        name: 'Mike Johnson',
-        position: 'CFO',
-        image: 'https://via.placeholder.com/300x300'
-      }
-      // Add more team members as needed
     ]);
 
     return { teamMembers };
@@ -147,22 +126,24 @@ export default {
 <style scoped lang="scss">
 .about {
   .hero-section {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: #ffffff;
     padding: 7rem 0;
+    margin-top: 5rem;
     h1 {
       font-size: 3.5rem;
       font-weight: 700;
+      color: #000000;
     }
     p {
       font-size: 1.5rem;
       font-weight: 300;
+      color: #000000;
     }
   }
 
   .company-info-section {
     background: #ffffff;
     padding: 3rem 0;
+    margin-top: -2rem;
     h2 {
       margin-bottom: 1.5rem;
       font-size: 2.5rem;
@@ -205,7 +186,7 @@ export default {
     }
   }
 
-  .mission-statement-section, .vision-section, .values-section, .contact-section {
+  .values-section, .contact-section {
     padding: 3rem 0;
     h2 {
       margin-bottom: 1.5rem;
@@ -248,14 +229,19 @@ export default {
       font-weight: 700;
     }
     .team-member {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 2rem;
       padding: 2rem;
       background: #f8f9fa;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       img {
-        max-width: 100%;
+        width: 70%;
         height: auto;
+        max-width: 200px;
         border-radius: 50%;
       }
       .member-info {
@@ -270,6 +256,17 @@ export default {
           margin-bottom: 0;
           font-size: 1.1rem;
           font-weight: 300;
+        }
+        .linkedin-btn {
+          display: inline-block;
+          margin-top: 1rem;
+          font-size: 1.2rem;
+          padding: 0.5rem 1rem;
+          background-color: #0e76a8;
+          color: #ffffff;
+          border: none;
+          border-radius: 0.25rem;
+          text-decoration: none;
         }
       }
     }

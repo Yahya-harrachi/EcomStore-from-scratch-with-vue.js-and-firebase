@@ -21,12 +21,12 @@
             <form>
               <div class="mb-3 text-start">
                 <label for="email" class="form-label">Email address :</label>
-                <input id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
+                <input required id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
                   style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="password" class="form-label">Password :</label>
-                <input id="password" v-model="password" type="password" class="form-control" placeholder="Password"
+                <input required id="password" v-model="password" type="password" class="form-control" placeholder="Password"
                   style="font-size: 0.9rem" @keyup.enter="Login()" />
               </div>
               <a type="submit" class="btn btn-success" @click="Login()">
@@ -40,22 +40,22 @@
             <form>
               <div class="mb-3 text-start">
                 <label for="name" class="form-label">Name :</label>
-                <input id="name" v-model="name" type="text" class="form-control" placeholder="Enter your name"
+                <input required id="name" v-model="name" type="text" class="form-control" placeholder="Enter your name"
                   style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="email" class="form-label">Email address :</label>
-                <input id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
+                <input required id="email" v-model="email" type="email" class="form-control" placeholder="Enter email"
                   style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="password" class="form-label">Password :</label>
-                <input id="password" v-model="password" type="password" class="form-control" placeholder="Password"
+                <input required id="password" v-model="password" type="password" class="form-control" placeholder="Password"
                   style="font-size: 0.9rem" />
               </div>
               <div class="mb-3 text-start">
                 <label for="confirmPassword" class="form-label">Confirm Password :</label>
-                <input id="confirmPassword" v-model="confirmPassword" type="password" class="form-control"
+                <input required id="confirmPassword" v-model="confirmPassword" type="password" class="form-control"
                   placeholder="Confirm password" style="font-size: 0.9rem" />
               </div>
 
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import { inject } from "vue";
 import { auth, db } from "../firebase.js";
 import {
@@ -141,9 +142,24 @@ export default {
           bootstrap.Modal.getInstance(myModalEl) ||
           new bootstrap.Modal(myModalEl);
         myModal.hide();
+        const docRef = await addDoc(collection(db, "profiles"), {
+            name: this.name,
+            email: this.email
+          })
+            .then(function () {
+              console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+              console.error("Error writing document: ", error);
+            });
         this.$router.replace("/admin");
       } catch (error) {
         // Handle login error
+        Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Email or Password is wrong !!",
+            });
         console.error("Login error:", error);
         console.log("Error code:", error.code);
         console.log("Error message:", error.message);

@@ -1,19 +1,22 @@
 <template>
   <div class="ProductsVue">
+    <div class="page-title">
+      <h1><i class="fas fa-box"></i> Products Page</h1>
+    </div>
+    
     <div class="container">
       <!-- Introduction Section -->
       <div class="intro h-100">
         <div class="row h-100 justify-content-center align-items-center">
           <div class="col-md-6">
-            <h3>Products Page</h3>
+            
             <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde,
-              ducimus.
+              Browse and manage all the products available in our store. This page allows you to add, 
+              edit, and remove products, as well as view detailed information about each item. Ensure accurate 
+              product details to provide the best experience for our customers.
             </p>
           </div>
-          <div class="col-md-6">
-            <img src="" alt="Intro Image" class="img-fluid" />
-          </div>
+
         </div>
       </div>
 
@@ -46,7 +49,7 @@
                     Edit
                   </button>
                   <button class="btn btn-danger btn-sm" style="margin-left: 0.5rem" @click="deleteProduct(product.id)">
-                    Delete
+                    <i class="fas fa-trash-alt"></i>Delete
                   </button>
                 </td>
               </tr>
@@ -359,7 +362,22 @@ export default {
 .ProductsVue {
   padding: 20px;
 }
+.page-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
+.page-title h1 {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.page-title h1 i {
+  margin-right: 10px;
+  font-size: 1.5rem;
+}
 .intro {
   background-color: #f8f9fa;
   padding: 20px;

@@ -1,7 +1,7 @@
 <template>
     <div class="addToCart">
         <button class="btn btn-primary" @click="addToCart" data-bs-toggle="modal"
-          data-bs-target="#miniCartModal">Add To Cart</button>
+          data-bs-target="#miniCartModal"> <i class="fas fa-cart-plus mr-2"></i>Add To Cart</button>
     </div>
 </template>
 
